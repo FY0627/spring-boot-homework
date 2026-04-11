@@ -9,6 +9,7 @@ import com.school.homework.mapper.UserMapper;
 import com.school.homework.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -68,5 +69,17 @@ public class UserServiceImpl implements UserService {
         }
         // 注意：实际开发中通常不直接返回密码，这里为了演示简单返回提示信息
         return Result.success("查询成功, 正在返回 ID为" + id + "的用户信息: " + user.getUsername());
+    }
+
+    @Override
+    public Result<Object> getUserPage(Integer pageNum, Integer pageSize) {
+        // 1. 创建分页对象（参数1：当前页码，参数2：每页显示条数） [cite: 362, 363]
+        Page<User> pageParam = new Page<>(pageNum, pageSize);
+
+        // 2. 执行分页查询（这里传 null 代表查询全部用户，框架会自动拼接分页 SQL） [cite: 364, 366]
+        Page<User> resultPage = userMapper.selectPage(pageParam, null);
+
+        // 3. 返回结果（resultPage 中包含了 records 数据列表、total 总条数等） [cite: 367]
+        return Result.success(resultPage);
     }
 }
