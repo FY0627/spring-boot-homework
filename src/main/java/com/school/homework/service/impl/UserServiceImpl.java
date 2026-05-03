@@ -32,6 +32,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
+    @Autowired
+    private com.school.homework.security.JwtUtil jwtUtil;
+
     public static final String CACHE_KEY_PREFIX = "user:detail:";
 
     @Override
@@ -72,8 +75,9 @@ public class UserServiceImpl implements UserService {
             return Result.error(ResultCode.PASSWORD_ERROR);
         }
 
-        // 模拟返回一个 Token
-        return Result.success("Bearer mock-token-123456");
+        // 4. 登录成功后，调用JwtUtil工具类生成jwt令牌返回：
+        String jwt = jwtUtil.generateToken(userDTO.getUsername());
+        return Result.success(jwt);
     }
 
     @Override
