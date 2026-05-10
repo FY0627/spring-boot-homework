@@ -17,6 +17,11 @@ spring:
       # password: 123456
       database: 0
 
+  # Spring AI DashScope 配置
+  ai:
+    dashscope:
+      api-key: sk-b4607a93306e469280abab9e99e3def6
+
 # MyBatis-Plus 配置
 mybatis-plus:
   configuration:
@@ -27,3 +32,4 @@ security:
   jwt:
     secret: demo-jwt-secret-key-for-spring-security-2026
     expiration-millis: 7200000 # 2小时
+
